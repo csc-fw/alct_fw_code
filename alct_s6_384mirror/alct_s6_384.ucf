@@ -1,0 +1,671 @@
+#------------------------------------------------------------------------
+# ALCT 384 Loop demo UCF
+#
+# 08/20/2004 Initial
+# 02/18/2009 Update for loop-back demo
+# 02/24/2009 Activate time spec constraints
+# 04/13/2009 Add iob slew and drive for 80MHz signals
+# 04/28/2009 Set 12mA SLOW for alct-to-tmb 80MHz signals
+# 11/04/2011 Modify for Spartan-6 pin assignments
+#------------------------------------------------------------------------
+# Pin assigments
+#------------------------------------------------------------------------
+# Clock
+NET "clkp"				LOC = "D15";	# GCLK0   Pin XP2.D21	S6
+#NET "clock_en"			LOC = "AE28";	# I/O_458 Pin XP2.C14	S6
+
+# ADB Multiplexer
+NET "mx_oe"			LOC = "AA1";	# I/O_187 Pin XP3.D19	S6
+NET "clk80<0>"			LOC = "C15";	# I/O_188 Pin XP3.A20	S6
+NET "clk80<1>"			LOC = "W1";		# I/O_189 Pin XP3.B20	S6
+NET "clk40sh<0>"		LOC = "W5";		# I/O_190 Pin XP3.A21	S6
+NET "clk40sh<1>"		LOC = "W4";		# I/O_191 Pin XP3.B21	S6
+
+# ADB Signal Inputs 80MHz
+NET "lct0_<0>"			LOC = "AG11";	# I/O_081 Pin XP1.A29	S6
+NET "lct0_<1>" 			LOC = "AB11";	# I/O_082 Pin XP1.B29	S6
+NET "lct0_<2>" 			LOC = "AD11";	# I/O_083 Pin XP1.C29	S6
+NET "lct0_<3>"			LOC = "AJ10";	# I/O_084 Pin XP1.D29	S6
+NET "lct0_<4>"			LOC = "AK10";	# I/O_085 Pin XP1.A30	S6
+NET "lct0_<5>"			LOC = "AH9";	# I/O_086 Pin XP1.B30	S6
+NET "lct0_<6>"			LOC = "AK9";	# I/O_087 Pin XP1.C30	S6
+NET "lct0_<7>"			LOC = "AG10";	# I/O_088 Pin XP1.D30	S6
+NET "lct0_<8>"			LOC = "AH10";	# I/O_089 Pin XP1.A31	S6
+NET "lct0_<9>"			LOC = "AD10";	# I/O_090 Pin XP1.B31	S6
+NET "lct0_<10>"			LOC = "AE10";	# I/O_091 Pin XP1.C31	S6
+NET "lct0_<11>"			LOC = "AF9";	# I/O_092 Pin XP1.D31	S6
+NET "lct0_<12>"			LOC = "AG9";	# I/O_093 Pin XP1.A32	S6
+NET "lct0_<13>"			LOC = "AG8";	# I/O_094 Pin XP1.B32	S6
+NET "lct0_<14>"			LOC = "AH8";	# I/O_095 Pin XP1.C32	S6
+NET "lct0_<15>"			LOC = "AF7";	# I/O_096 Pin XP1.D32	S6
+NET "lct0_<16>"			LOC = "AG7";	# I/O_097 Pin XP1.A33	S6
+NET "lct0_<17>"			LOC = "AD9";	# I/O_098 Pin XP1.B33	S6
+NET "lct0_<18>"			LOC = "AE9";	# I/O_099 Pin XP1.C33	S6
+NET "lct0_<19>"			LOC = "AD8";	# I/O_100 Pin XP1.D33	S6
+NET "lct0_<20>"			LOC = "AE8";	# I/O_101 Pin XP1.A34	S6
+NET "lct0_<21>"			LOC = "AG6";	# I/O_102 Pin XP1.B34	S6
+NET "lct0_<22>"			LOC = "AH6";	# I/O_103 Pin XP1.C34	S6
+NET "lct0_<23>"			LOC = "AH7";	# I/O_104 Pin XP1.D34	S6
+NET "lct0_<24>"			LOC = "AK7";	# I/O_105 Pin XP1.A35	S6
+NET "lct0_<25>"			LOC = "AA10";	# I/O_106 Pin XP1.B35	S6
+NET "lct0_<26>"			LOC = "AA9";	# I/O_107 Pin XP1.C35	S6
+NET "lct0_<27>"			LOC = "AD7";	# I/O_108 Pin XP1.D35	S6
+NET "lct0_<28>"			LOC = "AE7";	# I/O_109 Pin XP1.A36	S6
+NET "lct0_<29>"			LOC = "Y9";		# I/O_110 Pin XP1.B36	S6
+NET "lct0_<30>"			LOC = "Y8";		# I/O_111 Pin XP1.C36	S6
+NET "lct0_<31>"			LOC = "AE6";	# I/O_112 Pin XP1.D36	S6
+NET "lct0_<32>"			LOC = "AF6";	# I/O_113 Pin XP1.A37	S6
+NET "lct0_<33>"			LOC = "AA12";	# I/O_114 Pin XP1.B37	S6
+NET "lct0_<34>"			LOC = "AA11";	# I/O_115 Pin XP1.C37	S6
+NET "lct0_<35>"			LOC = "AE5";	# I/O_116 Pin XP1.D37	S6
+NET "lct0_<36>"			LOC = "AG5";	# I/O_117 Pin XP1.A38	S6
+NET "lct0_<37>"			LOC = "T7";		# I/O_118 Pin XP1.B38	S6
+NET "lct0_<38>"			LOC = "T6";		# I/O_119 Pin XP1.C38	S6
+NET "lct0_<39>"			LOC = "AA7";	# I/O_120 Pin XP1.D38	S6
+NET "lct0_<40>"			LOC = "AA6";	# I/O_121 Pin XP3.A03	S6
+NET "lct0_<41>"			LOC = "AC6";	# I/O_122 Pin XP3.B03	S6
+NET "lct0_<42>"			LOC = "AD6";	# I/O_123 Pin XP3.C03	S6
+NET "lct0_<43>"			LOC = "AH5";	# I/O_124 Pin XP3.D03	S6
+NET "lct0_<44>"			LOC = "AK5";	# I/O_125 Pin XP3.A04	S6
+NET "lct0_<45>"			LOC = "W10";	# I/O_126 Pin XP3.B04	S6
+NET "lct0_<46>"			LOC = "W9";		# I/O_127 Pin XP3.C04	S6
+NET "lct0_<47>"			LOC = "AB7";	# I/O_128 Pin XP3.D04	S6
+#
+NET "lct1_<0>"			LOC = "AB6";	# I/O_129 Pin XP3.A05	S6
+NET "lct1_<1>"			LOC = "W7";		# I/O_130 Pin XP3.B05	S6
+NET "lct1_<2>"			LOC = "W6";		# I/O_131 Pin XP3.C05	S6
+NET "lct1_<3>"			LOC = "AJ4";	# I/O_132 Pin XP3.D05	S6
+NET "lct1_<4>"			LOC = "AK4";	# I/O_133 Pin XP3.A06	S6
+NET "lct1_<5>"			LOC = "T9";		# I/O_134 Pin XP3.B06	S6
+NET "lct1_<6>"			LOC = "T8";		# I/O_135 Pin XP3.C06	S6
+NET "lct1_<7>"			LOC = "AH3";	# I/O_136 Pin XP3.D06	S6
+NET "lct1_<8>"			LOC = "AK3";	# I/O_137 Pin XP3.A07	S6
+NET "lct1_<9>"			LOC = "Y7";		# I/O_138 Pin XP3.B07	S6
+NET "lct1_<10>"			LOC = "Y6";		# I/O_139 Pin XP3.C07	S6
+NET "lct1_<11>"			LOC = "AJ2";	# I/O_140 Pin XP3.D07	S6
+NET "lct1_<12>"			LOC = "AK2";	# I/O_141 Pin XP3.A08	S6
+NET "lct1_<13>"			LOC = "AE4";	# I/O_142 Pin XP3.B08	S6
+NET "lct1_<14>"			LOC = "AF4";	# I/O_143 Pin XP3.C08	S6
+NET "lct1_<15>"			LOC = "AF3";	# I/O_144 Pin XP3.D08	S6
+NET "lct1_<16>"			LOC = "AG3";	# I/O_145 Pin XP3.A09	S6
+NET "lct1_<17>"			LOC = "V8";		# I/O_146 Pin XP3.B09	S6
+NET "lct1_<18>"			LOC = "V7";		# I/O_147 Pin XP3.C09	S6
+NET "lct1_<19>"			LOC = "AH1";	# I/O_148 Pin XP3.D09	S6
+NET "lct1_<20>"			LOC = "AJ1";	# I/O_149 Pin XP3.A10	S6
+NET "lct1_<21>"			LOC = "V10";	# I/O_150 Pin XP3.B10	S6
+NET "lct1_<22>"			LOC = "V9";		# I/O_151 Pin XP3.C10	S6
+NET "lct1_<23>"			LOC = "AG4";	# I/O_152 Pin XP3.D10	S6
+NET "lct1_<24>"			LOC = "AH4";	# I/O_153 Pin XP3.A11	S6
+NET "lct1_<25>"			LOC = "N10";	# I/O_154 Pin XP3.B11	S6
+NET "lct1_<26>"			LOC = "N9";		# I/O_155 Pin XP3.C11	S6
+NET "lct1_<27>"			LOC = "AF2";	# I/O_156 Pin XP3.D11	S6
+NET "lct1_<28>"			LOC = "AH2";	# I/O_157 Pin XP3.A12	S6
+NET "lct1_<29>"			LOC = "R7";		# I/O_158 Pin XP3.B12	S6
+NET "lct1_<30>"			LOC = "R6";		# I/O_159 Pin XP3.C12	S6
+NET "lct1_<31>"			LOC = "AF1";	# I/O_160 Pin XP3.D12	S6
+NET "lct1_<32>"			LOC = "AG1";	# I/O_161 Pin XP3.A13	S6
+NET "lct1_<33>"			LOC = "U7";		# I/O_162 Pin XP3.B13	S6
+NET "lct1_<34>"			LOC = "U6";		# I/O_163 Pin XP3.C13	S6
+NET "lct1_<35>"			LOC = "AE3";	# I/O_164 Pin XP3.D13	S6
+NET "lct1_<36>"			LOC = "AE1";	# I/O_165 Pin XP3.A14	S6
+NET "lct1_<37>"			LOC = "N8";		# I/O_166 Pin XP3.B14	S6
+NET "lct1_<38>"			LOC = "N7";		# I/O_167 Pin XP3.C14	S6
+NET "lct1_<39>"			LOC = "AC5";	# I/O_168 Pin XP3.D14	S6
+NET "lct1_<40>"			LOC = "AC4";	# I/O_169 Pin XP3.A15	S6
+NET "lct1_<41>"			LOC = "AD4";	# I/O_170 Pin XP3.B15	S6
+NET "lct1_<42>"			LOC = "AD3";	# I/O_171 Pin XP3.C15	S6
+NET "lct1_<43>"			LOC = "AB4";	# I/O_172 Pin XP3.D15	S6
+NET "lct1_<44>"			LOC = "AB3";	# I/O_173 Pin XP3.A16	S6
+NET "lct1_<45>"			LOC = "AD2";	# I/O_174 Pin XP3.B16	S6
+NET "lct1_<46>"			LOC = "AD1";	# I/O_175 Pin XP3.C16	S6
+NET "lct1_<47>"			LOC = "AC3";	# I/O_176 Pin XP3.D16	S6
+#
+NET "lct2_<0>" 			LOC = "U1";		# I/O_203 Pin XP3.A25	S6
+NET "lct2_<1>" 			LOC = "T4";		# I/O_204 Pin XP3.B25	S6
+NET "lct2_<2>" 			LOC = "T3";		# I/O_205 Pin XP3.C25	S6
+NET "lct2_<3>" 			LOC = "T2";		# I/O_206 Pin XP3.D25	S6
+NET "lct2_<4>" 			LOC = "T1";		# I/O_207 Pin XP3.A26	S6
+NET "lct2_<5>" 			LOC = "R5";		# I/O_208 Pin XP3.B26	S6
+NET "lct2_<6>" 			LOC = "R4";		# I/O_209 Pin XP3.C26	S6
+NET "lct2_<7>" 			LOC = "R3";		# I/O_210 Pin XP3.D26	S6
+NET "lct2_<8>" 			LOC = "R1";		# I/O_211 Pin XP3.A27	S6
+NET "lct2_<9>" 			LOC = "P4";		# I/O_212 Pin XP3.B27	S6
+NET "lct2_<10>"			LOC = "P3";		# I/O_213 Pin XP3.C27	S6
+NET "lct2_<11>"			LOC = "N5";		# I/O_214 Pin XP3.D27	S6
+NET "lct2_<12>"			LOC = "N4";		# I/O_215 Pin XP3.A28	S6
+NET "lct2_<13>"			LOC = "P2";		# I/O_216 Pin XP3.B28	S6
+NET "lct2_<14>"			LOC = "P1";		# I/O_217 Pin XP3.C28	S6
+NET "lct2_<15>"			LOC = "N3";		# I/O_218 Pin XP3.D28	S6
+NET "lct2_<16>"			LOC = "N1";		# I/O_219 Pin XP3.A29	S6
+NET "lct2_<17>"			LOC = "P7";		# I/O_220 Pin XP3.B29	S6
+NET "lct2_<18>"			LOC = "P6";		# I/O_221 Pin XP3.C29	S6
+NET "lct2_<19>"			LOC = "M7";		# I/O_222 Pin XP3.D29	S6
+NET "lct2_<20>"			LOC = "M6";		# I/O_223 Pin XP3.A30	S6
+NET "lct2_<21>"			LOC = "L7";		# I/O_224 Pin XP3.B30	S6
+NET "lct2_<22>"			LOC = "L6";		# I/O_225 Pin XP3.C30	S6
+NET "lct2_<23>"			LOC = "M2";		# I/O_226 Pin XP3.D30	S6
+NET "lct2_<24>"			LOC = "M1";		# I/O_227 Pin XP3.A31	S6
+NET "lct2_<25>"			LOC = "L3";		# I/O_228 Pin XP3.B31	S6
+NET "lct2_<26>"			LOC = "L1";		# I/O_229 Pin XP3.C31	S6
+NET "lct2_<27>"			LOC = "K2";		# I/O_230 Pin XP3.D31	S6
+NET "lct2_<28>"			LOC = "K1";		# I/O_231 Pin XP3.A32	S6
+NET "lct2_<29>"			LOC = "L5";		# I/O_232 Pin XP3.B32	S6
+NET "lct2_<30>"			LOC = "L4";		# I/O_233 Pin XP3.C32	S6
+NET "lct2_<31>"			LOC = "M4";		# I/O_234 Pin XP3.D32	S6
+NET "lct2_<32>"			LOC = "M3";		# I/O_235 Pin XP3.A33	S6
+NET "lct2_<33>"			LOC = "H4";		# I/O_236 Pin XP3.B33	S6
+NET "lct2_<34>"			LOC = "H3";		# I/O_237 Pin XP3.C33	S6
+NET "lct2_<35>"			LOC = "J3";		# I/O_238 Pin XP3.D33	S6
+NET "lct2_<36>"			LOC = "J1";		# I/O_239 Pin XP3.A34	S6
+NET "lct2_<37>"			LOC = "J5";		# I/O_240 Pin XP3.B34	S6
+NET "lct2_<38>"			LOC = "J4";		# I/O_241 Pin XP3.C34	S6
+NET "lct2_<39>"			LOC = "H2";		# I/O_242 Pin XP3.D34	S6
+NET "lct2_<40>"			LOC = "H1";		# I/O_243 Pin XP3.A35	S6
+NET "lct2_<41>"			LOC = "G3";		# I/O_244 Pin XP3.B35	S6
+NET "lct2_<42>"			LOC = "G1";		# I/O_245 Pin XP3.C35	S6
+NET "lct2_<43>"			LOC = "K4";		# I/O_246 Pin XP3.D35	S6
+NET "lct2_<44>"			LOC = "K3";		# I/O_247 Pin XP3.A36	S6
+NET "lct2_<45>"			LOC = "C1";		# I/O_248 Pin XP3.B36	S6
+NET "lct2_<46>"			LOC = "B1";		# I/O_249 Pin XP3.C36	S6
+NET "lct2_<47>"			LOC = "F2";		# I/O_250 Pin XP3.D36	S6
+#
+NET "lct3_<0>"			LOC = "F1";		# I/O_251 Pin XP3.A37	S6
+NET "lct3_<1>"			LOC = "E5";		# I/O_252 Pin XP3.B37	S6
+NET "lct3_<2>"			LOC = "E4";		# I/O_253 Pin XP3.C37	S6
+NET "lct3_<3>"			LOC = "E3";		# I/O_254 Pin XP3.D37	S6
+NET "lct3_<4>"			LOC = "E1";		# I/O_255 Pin XP3.A38	S6
+NET "lct3_<5>"			LOC = "D4";		# I/O_256 Pin XP3.B38	S6
+NET "lct3_<6>"			LOC = "D3";		# I/O_257 Pin XP3.C38	S6
+NET "lct3_<7>"			LOC = "D2";		# I/O_258 Pin XP3.D38	S6
+NET "lct3_<8>"			LOC = "D1";		# I/O_259 Pin XP4.D38	S6
+NET "lct3_<9>"			LOC = "B3";		# I/O_260 Pin XP4.C38	S6
+NET "lct3_<10>"			LOC = "A3";		# I/O_261 Pin XP4.B38	S6
+NET "lct3_<11>"			LOC = "F4";		# I/O_262 Pin XP4.A38	S6
+NET "lct3_<12>"			LOC = "F3";		# I/O_263 Pin XP4.D37	S6
+NET "lct3_<13>"			LOC = "D5";		# I/O_264 Pin XP4.C37	S6
+NET "lct3_<14>"			LOC = "C5";		# I/O_265 Pin XP4.B37	S6
+NET "lct3_<15>"			LOC = "B2";		# I/O_266 Pin XP4.A37	S6
+NET "lct3_<16>"			LOC = "A2";		# I/O_267 Pin XP4.D36	S6
+NET "lct3_<17>"			LOC = "C4";		# I/O_268 Pin XP4.C36	S6
+NET "lct3_<18>"			LOC = "A4";		# I/O_269 Pin XP4.B36	S6
+NET "lct3_<19>"			LOC = "G5";		# I/O_270 Pin XP4.A36	S6
+NET "lct3_<20>"			LOC = "G4";		# I/O_271 Pin XP4.D35	S6
+NET "lct3_<21>"			LOC = "B5";		# I/O_272 Pin XP4.C35	S6
+NET "lct3_<22>"			LOC = "A5";		# I/O_273 Pin XP4.B35	S6
+NET "lct3_<23>"			LOC = "J6";		# I/O_274 Pin XP4.A35	S6
+NET "lct3_<24>"			LOC = "H6";		# I/O_275 Pin XP4.D34	S6
+NET "lct3_<25>"			LOC = "G7";		# I/O_276 Pin XP4.C34	S6
+NET "lct3_<26>"			LOC = "F7";		# I/O_277 Pin XP4.B34	S6
+NET "lct3_<27>"			LOC = "G6";		# I/O_278 Pin XP4.A34	S6
+NET "lct3_<28>"			LOC = "F6";		# I/O_279 Pin XP4.D33	S6
+NET "lct3_<29>"			LOC = "G8";		# I/O_280 Pin XP4.C33	S6
+NET "lct3_<30>"			LOC = "F8";		# I/O_281 Pin XP4.B33	S6
+NET "lct3_<31>"			LOC = "E6";		# I/O_282 Pin XP4.A33	S6
+NET "lct3_<32>"			LOC = "D6";		# I/O_283 Pin XP4.D32	S6
+NET "lct3_<33>"			LOC = "E8";		# I/O_284 Pin XP4.C32	S6
+NET "lct3_<34>"			LOC = "D8";		# I/O_285 Pin XP4.B32	S6
+NET "lct3_<35>"			LOC = "J10";	# I/O_286 Pin XP4.A32	S6
+NET "lct3_<36>"			LOC = "G10";	# I/O_287 Pin XP4.D31	S6
+NET "lct3_<37>"			LOC = "C6";		# I/O_288 Pin XP4.C31	S6
+NET "lct3_<38>"			LOC = "A6";		# I/O_289 Pin XP4.B31	S6
+NET "lct3_<39>"			LOC = "B7";		# I/O_290 Pin XP4.A31	S6
+NET "lct3_<40>"			LOC = "A7";		# I/O_291 Pin XP4.D30	S6
+NET "lct3_<41>"			LOC = "D7";		# I/O_292 Pin XP4.C30	S6
+NET "lct3_<42>"			LOC = "C7";		# I/O_293 Pin XP4.B30	S6
+NET "lct3_<43>"			LOC = "J11";	# I/O_294 Pin XP4.A30	S6
+NET "lct3_<44>"			LOC = "H11";	# I/O_295 Pin XP4.D29	S6
+NET "lct3_<45>"			LOC = "E10";	# I/O_296 Pin XP4.C29	S6
+NET "lct3_<46>"			LOC = "D10";	# I/O_297 Pin XP4.B29	S6
+NET "lct3_<47>"			LOC = "C8";		# I/O_298 Pin XP4.A29	S6
+
+# Trigger Path
+NET "ext_inject_trig"	LOC = "AG29";	# I/O_467 Pin XP2.B12	S6
+NET "activeFeb_cfgDone"	LOC = "AC29";	# I/O_453 Pin XP2.D15	S6
+NET "valid"				LOC = "AC30";	# I/O_454 Pin XP2.C15	S6
+
+NET "keyp<0>"			LOC = "AD30";	# I/O_450 Pin XP2.C16	S6
+NET "keyp<1>"			LOC = "AC27";	# I/O_451 Pin XP2.B16	S6
+NET "keyp<2>"			LOC = "AC28";	# I/O_452 Pin XP2.A16	S6
+NET "keyp<3>"			LOC = "AB30";	# I/O_445 Pin XP2.D17	S6
+NET "keyp<4>"			LOC = "W29";	# I/O_446 Pin XP2.C17	S6
+NET "keyp<5>"			LOC = "W30";	# I/O_447 Pin XP2.B17	S6
+NET "keyp<6>"			LOC = "Y27";	# I/O_448 Pin XP2.A17	S6
+
+NET "quality<0>"		LOC = "AE30";	# I/O_456 Pin XP2.A15	S6
+NET "quality<1>"		LOC = "AD28";	# I/O_449 Pin XP2.D16	S6
+NET "amu"				LOC = "AE29";	# I/O_455 Pin XP2.B15	S6
+
+NET "bxn_wrFifo<0>"		LOC = "V27";	# I/O_441 Pin XP2.D18	S6
+NET "bxn_wrFifo<1>"		LOC = "W27";	# I/O_442 Pin XP2.C18	S6
+NET "bxn_wrFifo<2>"		LOC = "W28";	# I/O_443 Pin XP2.B18	S6
+
+# DAQ Path
+NET "L1A_SyncAdb"		LOC = "AG30";	# I/O_468 Pin XP2.A12	S6
+NET "daqData<0>"		LOC = "AB28";	# I/O_444 Pin XP2.A18	S6
+NET "daqData<1>"		LOC = "V28";	# I/O_438 Pin XP2.C19	S6
+NET "daqData<2>"		LOC = "V30";	# I/O_439 Pin XP2.B19	S6
+NET "daqData<3>"		LOC = "V26";	# I/O_440 Pin XP2.A19	S6
+NET "daqData<4>"		LOC = "L25";	# I/O_435 Pin XP2.C22	S6
+NET "daqData<5>"		LOC = "M23";	# I/O_436 Pin XP2.B22	S6
+NET "daqData<6>"		LOC = "M24";	# I/O_437 Pin XP2.A22	S6
+NET "lctSpec_FirstFr"	LOC = "M30";	# I/O_431 Pin XP2.D23	S6
+NET "dduSpec_LastFr"	LOC = "L24";	# I/O_434 Pin XP2.A23	S6
+
+# CCB IOs
+NET "ccb_brcstm<0>"		LOC = "P24";	# I/O_469 Pin XP2.D11	S6
+NET "ccb_brcstm<1>"		LOC = "P25";	# I/O_470 Pin XP2.C11	S6
+NET "ccb_brcstm<2>"		LOC = "AH30";	# I/O_471 Pin XP2.B11	S6
+NET "ccb_brcstm<3>"		LOC = "AJ30";	# I/O_472 Pin XP2.A11	S6
+NET "bstr1_subaddr"		LOC = "P22";	# I/O_465 Pin XP2.D12	S6
+NET "dout_bx0"			LOC = "P23";	# I/O_466 Pin XP2.C12	S6
+
+# LEDs low enables
+NET "jstate<0>"			LOC = "M26";	# I/O_429 Pin XP2.B24	S6
+NET "jstate<1>"			LOC = "M27";	# I/O_430 Pin XP2.A24	S6
+NET "jstate<2>"			LOC = "H30";	# I/O_423 Pin XP2.D25	S6
+NET "jstate<3>"			LOC = "L27";	# I/O_424 Pin XP2.C25	S6
+
+#NET "feb0_grn"			LOC = "L28";	# I/O_425 Pin XP2.B25	S6
+#NET "feb1_grn"			LOC = "L30";	# I/O_426 Pin XP2.A25	S6
+#NET "feb2_grn"			LOC = "J30";	# I/O_419 Pin XP2.D26	S6
+#NET "feb3_grn"			LOC = "G29";	# I/O_420 Pin XP2.C26	S6
+#NET "feb4_grn"			LOC = "G30";	# I/O_421 Pin XP2.B26	S6
+#NET "feb5_grn"			LOC = "H28";	# I/O_422 Pin XP2.A26	S6
+#NET "feb6_grn"			LOC = "G28";	# I/O_415 Pin XP2.D27	S6
+
+#NET "tck_grn"			LOC = "J29";	# I/O_418 Pin XP2.A27	S6
+#NET "tms_grn"			LOC = "F30";	# I/O_417 Pin XP2.B27	S6
+#NET "tdi_grn"			LOC = "K27";	# I/O_411 Pin XP2.D28	S6
+#NET "tdo_grn"			LOC = "F28";	# I/O_416 Pin XP2.C27	S6
+
+#NET "halt_red"			LOC = "J27";	# I/O_412 Pin XP2.C28	S6
+#NET "l1a_ok_grn"		LOC = "H26";	# I/O_408 Pin XP2.C29	S6
+#NET "no_l1a_red"		LOC = "E30";	# I/O_407 Pin XP2.D29	S6
+#NET "invpat_red"		LOC = "G27";	# I/O_414 Pin XP2.A28	S6
+#NET "amu_grn"			LOC = "J28";	# I/O_413 Pin XP2.B28	S6
+#NET "pretrig_blu"		LOC = "H27";	# I/O_409 Pin XP2.B29	S6
+
+# Test points
+NET "TP0<0>"			LOC = "AC21";	# I/O_005 Pin XP1.A08	S6
+NET "TP0<1>"			LOC = "AD21";	# I/O_006 Pin XP1.B08	S6
+NET "TP0<2>"			LOC = "AF23";	# I/O_007 Pin XP1.C08	S6
+NET "TP0<3>"			LOC = "AG23";	# I/O_008 Pin XP1.D08	S6
+NET "TP0<4>"			LOC = "AD23";	# I/O_001 Pin XP1.A07	S6
+NET "TP0<5>"			LOC = "AE23";	# I/O_002 Pin XP1.B07	S6
+NET "TP0<6>"			LOC = "AD22";	# I/O_003 Pin XP1.C07	S6
+NET "TP0<7>"			LOC = "AE22";	# I/O_004 Pin XP1.D07	S6
+NET "TP0<8>"			LOC = "AF25";	# I/O_497 Pin XP1.A06	S6
+NET "TP0<9>"			LOC = "AG25";	# I/O_498 Pin XP1.B06	S6
+NET "TP0<10>"			LOC = "AG24";	# I/O_499 Pin XP1.C06	S6
+NET "TP0<11>"			LOC = "AH24";	# I/O_500 Pin XP1.D06	S6
+NET "TP0<12>"			LOC = "AG26";	# I/O_493 Pin XP1.A05	S6
+NET "TP0<13>"			LOC = "AH26";	# I/O_494 Pin XP1.B05	S6
+NET "TP0<14>"			LOC = "AD24";	# I/O_495 Pin XP1.C05	S6
+NET "TP0<15>"			LOC = "AE24";	# I/O_496 Pin XP1.D05	S6
+#NET "TP0<16>"			LOC = "AE25";	# I/O_489 Pin XP1.A04	S6
+#NET "TP0<17>"			LOC = "AE26";	# I/O_490 Pin XP1.B04	S6
+#NET "TP0<18>"			LOC = "Y24";	# I/O_491 Pin XP1.C04	S6
+#NET "TP0<19>"			LOC = "Y25";	# I/O_492 Pin XP1.D04	S6
+#NET "TP0<20>"			LOC = "AH27";	# I/O_485 Pin XP1.A03	S6
+#NET "TP0<21>"			LOC = "AK27";	# I/O_486 Pin XP1.B03	S6
+#NET "TP0<22>"			LOC = "Y22";	# I/O_487 Pin XP1.C03	S6
+#NET "TP0<23>"			LOC = "Y23";	# I/O_488 Pin XP1.D03	S6
+#NET "TP0<24>"			LOC = "W22";	# I/O_484 Pin XP2.A03	S6
+#NET "TP0<25>"			LOC = "W21";	# I/O_483 Pin XP2.B03	S6
+#NET "TP0<26>"			LOC = "AD27";	# I/O_482 Pin XP2.C03	S6
+#NET "TP0<27>"			LOC = "AD26";	# I/O_481 Pin XP2.D03	S6
+#NET "TP0<28>"			LOC = "V24";	# I/O_480 Pin XP2.A04	S6
+#NET "TP0<29>"			LOC = "V23";	# I/O_479 Pin XP2.B04	S6
+#NET "TP0<30>"			LOC = "AG28";	# I/O_478 Pin XP2.C04	S6
+#NET "TP0<31>"			LOC = "AG27";	# I/O_477 Pin XP2.D04	S6
+
+NET "TP1<0>" 			LOC = "D21";	# I/O_374 Pin XP4.A08	S6
+NET "TP1<1>" 			LOC = "A22";	# I/O_373 Pin XP4.B08	S6
+NET "TP1<2>" 			LOC = "C22";	# I/O_372 Pin XP4.C08	S6
+NET "TP1<3>"			LOC = "D20";	# I/O_371 Pin XP4.D08	S6
+NET "TP1<4>"			LOC = "B23";	# I/O_378 Pin XP4.A07	S6
+NET "TP1<5>"			LOC = "D22";	# I/O_377 Pin XP4.B07	S6
+NET "TP1<6>"			LOC = "E22";	# I/O_376 Pin XP4.C07	S6
+NET "TP1<7>"			LOC = "C21";	# I/O_375 Pin XP4.D07	S6
+NET "TP1<8>"			LOC = "G21";	# I/O_382 Pin XP4.A06	S6
+NET "TP1<9>"			LOC = "G20";	# I/O_381 Pin XP4.B06	S6
+NET "TP1<10>"			LOC = "J20";	# I/O_380 Pin XP4.C06	S6
+NET "TP1<11>"			LOC = "A23";	# I/O_379 Pin XP4.D06	S6
+NET "TP1<12>"			LOC = "G22";	# I/O_386 Pin XP4.A05	S6
+NET "TP1<13>"			LOC = "C23";	# I/O_385 Pin XP4.B05	S6
+NET "TP1<14>"			LOC = "D23";	# I/O_384 Pin XP4.C05	S6
+NET "TP1<15>"			LOC = "F21";	# I/O_383 Pin XP4.D05	S6
+NET "TP1<16>"			LOC = "G23";	# I/O_390 Pin XP4.A04	S6
+NET "TP1<17>"			LOC = "D24";	# I/O_389 Pin XP4.B04	S6
+NET "TP1<18>"			LOC = "E24";	# I/O_388 Pin XP4.C04	S6
+NET "TP1<19>"			LOC = "F22";	# I/O_387 Pin XP4.D04	S6
+NET "TP1<20>"			LOC = "C24";	# I/O_394 Pin XP4.A03	S6
+NET "TP1<21>"			LOC = "A25";	# I/O_393 Pin XP4.B03	S6
+NET "TP1<22>"			LOC = "B25";	# I/O_392 Pin XP4.C03	S6
+NET "TP1<23>"			LOC = "F23";	# I/O_391 Pin XP4.D03	S6
+NET "TP1<24>"			LOC = "A29";	# I/O_398 Pin XP2.A38	S6
+NET "TP1<25>"			LOC = "A28";	# I/O_397 Pin XP2.B38	S6
+NET "TP1<26>"			LOC = "J21";	# I/O_396 Pin XP2.C38	S6
+NET "TP1<27>"			LOC = "A24";	# I/O_395 Pin XP2.D38	S6
+NET "TP1<28>"			LOC = "B30";	# I/O_402 Pin XP2.A37	S6
+NET "TP1<29>"			LOC = "B29";	# I/O_401 Pin XP2.B37	S6
+NET "TP1<30>"			LOC = "A26";	# I/O_400 Pin XP2.C37	S6
+NET "TP1<31>"			LOC = "C26";	# I/O_399 Pin XP2.D37	S6
+
+# User JTAG
+NET "tck2"				LOC = "AK29";	# I/O_476 Pin XP2.A10	S6
+NET "tms2"				LOC = "AJ29";	# I/O_475 Pin XP2.B10	S6
+NET "tdi2"				LOC = "R24";	# I/O_473 Pin XP2.D10	S6
+NET "tdo2"				LOC = "R25";	# I/O_474 Pin XP2.C10	S6
+
+# Delay ASICs
+NET "clk_dly"			LOC = "AK19";	# I/O_186 Pin XP3.C19	S6
+NET "din_dly"			LOC = "AA3";	# I/O_185 Pin XP3.B19	S6
+NET "rs_dly"			LOC = "AH19";	# I/O_193 Pin XP3.C22	S6
+NET "settst_dlyp"		LOC = "AB2";	# I/O_192 Pin XP3.B22	S6
+
+NET "cs_dly<0>"			LOC = "AC1";	# I/O_177 Pin XP3.A17	S6
+NET "cs_dly<1>"			LOC = "Y1";		# I/O_181 Pin XP3.A18	S6
+NET "cs_dly<2>"			LOC = "V4";		# I/O_195 Pin XP3.A23	S6
+NET "cs_dly<3>"			LOC = "V1";		# I/O_199 Pin XP3.A24	S6
+
+NET "dout_dly<0>"		LOC = "Y4";		# I/O_178 Pin XP3.B17	S6
+NET "dout_dly<1>"		LOC = "AA5";	# I/O_182 Pin XP3.B18	S6
+NET "dout_dly<2>"		LOC = "V3";		# I/O_196 Pin XP3.B23	S6
+NET "dout_dly<3>"		LOC = "U5";		# I/O_200 Pin XP3.B24	S6
+
+# Test Pulse
+NET "AsyncAdb"			LOC = "AE27";	# I/O_457 Pin XP2.D14	S6
+NET "tst_pls"			LOC = "K28";	# I/O_427 Pin XP2.D24	S6
+NET "tp_strt_ext"		LOC = "K30";	# I/O_428 Pin XP2.C24	S6
+
+# Sequencer Status
+NET "seq_cmd02" 		LOC = "R21";	# I/O_461 Pin XP2.D13	S6
+NET "seq_cmd13"			LOC = "R22";	# I/O_462 Pin XP2.C13	S6
+
+NET "seq_seu<0>"		LOC = "N24";	# I/O_432 Pin XP2.C23	S6
+NET "seq_seu<1>"		LOC = "N25";	# I/O_433 Pin XP2.B23	S6
+
+#NET "sc_done"			LOC = "E28";	# I/O_404 Pin XP2.C30	S6
+#NET "mc_done"			LOC = "B27";	# I/O_403 Pin XP2.D30	S6
+
+# Reserved
+NET "rsv_in02"			LOC = "AF28";	# I/O_463 Pin XP2.B13	S6
+NET "rsv_in13"			LOC = "AF30";	# I/O_464 Pin XP2.A13	S6
+NET "rsrvd_out<0>"		LOC = "W24";	# I/O_459 Pin XP2.B14	S6
+NET "rsrvd_out<1>"		LOC = "W25";	# I/O_460 Pin XP2.A14	S6
+
+# Serial Number
+NET "alct_sn"			LOC = "K26";	# I/O_410 Pin XP2.A29	S6
+NET "mc_sn"				LOC = "A27";	# I/O_406 Pin XP2.A30	S6
+
+## Spartan-6 mezzanine ADC
+#NET "adc_eoc"			LOC = "U24";	# ADC_EOC
+#NET "adc_ncs"			LOC = "C25";	# ADC_NCS
+#NET "adc_sck"			LOC = "H21";	# ADC_SCK
+#NET "adc_sdi"			LOC = "D25";	# ADC_SDI
+#NET "adc_sdo"			LOC = "M28";	# ADC_SDO
+
+## Spartan-6 mezzanine unused pins
+#NET "awake"				LOC = "AA24";	# AWAKE
+#NET "cclk"				LOC = "AJ26";	# CCLK
+##ET "cmpcs_b"			LOC = "AC25";	# CMPCS_B
+#NET "csi_b"				LOC = "AK25";	# CSI_B
+#NET "cso_b"				LOC = "AK6";	# CSO_B
+#NET "dbus<0>"			LOC = "AH25";	# D0
+#NET "dbus<1>"			LOC = "AH23";	# D1
+#NET "dbus<2>"			LOC = "AK23";	# D2
+#NET "dbus<3>"			LOC = "AJ12";	# D3
+#NET "dbus<4>"			LOC = "AK12";	# D4
+#NET "dbus<5>"			LOC = "AJ8";	# D5
+#NET "dbus<6>"			LOC = "AK8";	# D6
+#NET "dbus<7>"			LOC = "AH11";	# D7
+#NET "gp_io7"			LOC = "AA27";	# /CS
+#NET "gp_io5"			LOC = "AA28";	# /INIT
+#NET "gp_io6"			LOC = "Y26";	# /WRITE
+#NET "hswapen"			LOC = "G9";		# HSWAPEN
+#NET "led_fp<0>"			LOC = "AA30";	# A0
+#NET "led_fp<1>"			LOC = "AA29";	# A1
+#NET "led_fp<2>"			LOC = "Y30";	# A2
+#NET "led_fp<3>"			LOC = "Y28";	# A3
+#NET "led_fp<4>"			LOC = "U28";	# A4
+#NET "led_fp<5>"			LOC = "U27";	# A5
+#NET "led_fp<6>"			LOC = "U30";	# A6
+#NET "led_fp<7>"			LOC = "U29";	# A7
+#NET "meztp20"			LOC = "T30";	# A8
+#NET "meztp21"			LOC = "T28";	# A9
+#NET "meztp22"			LOC = "T27";	# A10
+#NET "meztp23"			LOC = "T26";	# A11
+#NET "meztp24"			LOC = "R28";	# A12
+#NET "meztp25"			LOC = "R27";	# A13
+#NET "meztp26"			LOC = "R30";	# A14
+#NET "meztp27"			LOC = "R29";	# A15
+#NET "abus<16>"			LOC = "P27";	# A16
+#NET "abus<17>"			LOC = "P26";	# A17
+#NET "abus<18>"			LOC = "P30";	# A18
+#NET "abus<19>"			LOC = "P28";	# A19
+#NET "abus<20>"			LOC = "N28";	# A20
+#NET "abus<21>"			LOC = "N27";	# A21
+#NET "abus<22>"			LOC = "N30";	# A22
+#NET "abus<23>"			LOC = "N29";	# A23
+#NET "abus<24>"			LOC = "F25";	# A24
+#NET "abus<25>"			LOC = "G25";	# A25
+#NET "init_b"			LOC = "AJ6";	# INIT_B
+#NET "m<0>"				LOC = "AK26";	# M0
+#NET "m<1>"				LOC = "AJ22";	# M1
+#NET "mez_busy"			LOC = "AA25";	# BUSY
+#NET "rdwr_b"			LOC = "AK11";	# RDWR_B
+#NET "unused<0>"			LOC = "F9";		# UNUSED0
+#NET "unused<1>"			LOC = "C16";	# UNUSED1
+#NET "unused<2>"			LOC = "A20";	# UNUSED2
+#NET "unused<3>"			LOC = "L29";	# UNUSED3
+
+## Spartan-6 unused global clock pins
+#NET "gclk1"				LOC = "A15";	# GCLK1
+#NET "gclk2"				LOC = "B15";	# GCLK2
+#NET "gclk3"				LOC = "AJ18";	# GCLK3
+
+## Spartan-6 signals not used by ALCT384
+#NET "not_alct384<0>"	LOC = "AD20";	# I/O_9
+#NET "not_alct384<1>"	LOC = "AE20";	# I/O_10
+#NET "not_alct384<2>"	LOC = "AJ24";	# I/O_11
+#NET "not_alct384<3>"	LOC = "AK24";	# I/O_12
+#NET "not_alct384<4>"	LOC = "AK22";	# I/O_13
+#NET "not_alct384<5>"	LOC = "AH21";	# I/O_14
+#NET "not_alct384<6>"	LOC = "AK21";	# I/O_15
+#NET "not_alct384<7>"	LOC = "AG22";	# I/O_16
+#NET "not_alct384<8>"	LOC = "AH22";	# I/O_17
+#NET "not_alct384<9>"	LOC = "AJ20";	# I/O_18
+#NET "not_alct384<10>"	LOC = "AK20";	# I/O_19
+#NET "not_alct384<11>"	LOC = "AF21";	# I/O_20
+#NET "not_alct384<12>"	LOC = "AG21";	# I/O_21
+#NET "not_alct384<13>"	LOC = "AB20";	# I/O_22
+#NET "not_alct384<14>"	LOC = "AC20";	# I/O_23
+#NET "not_alct384<15>"	LOC = "AD19";	# I/O_24
+#NET "not_alct384<16>"	LOC = "AE19";	# I/O_25
+#NET "not_alct384<17>"	LOC = "AG20";	# I/O_26
+#NET "not_alct384<18>"	LOC = "AH20";	# I/O_27
+#NET "not_alct384<19>"	LOC = "AD18";	# I/O_28
+#NET "not_alct384<20>"	LOC = "AE18";	# I/O_29
+#NET "not_alct384<21>"	LOC = "AA19";	# I/O_30
+#NET "not_alct384<22>"	LOC = "AB19";	# I/O_31
+#NET "not_alct384<23>"	LOC = "AF19";	# I/O_32
+#NET "not_alct384<24>"	LOC = "AG19";	# I/O_33
+#NET "not_alct384<25>"	LOC = "AG18";	# I/O_34
+#NET "not_alct384<26>"	LOC = "AH18";	# I/O_35
+#NET "not_alct384<27>"	LOC = "AB18";	# I/O_36
+#NET "not_alct384<28>"	LOC = "AC18";	# I/O_37
+#NET "not_alct384<29>"	LOC = "AF17";	# I/O_38
+#NET "not_alct384<30>"	LOC = "AG17";	# I/O_39
+#NET "not_alct384<31>"	LOC = "AD17";	# I/O_40
+#NET "not_alct384<32>"	LOC = "AE17";	# I/O_41
+#NET "not_alct384<33>"	LOC = "AD16";	# I/O_42
+#NET "not_alct384<34>"	LOC = "AE16";	# I/O_43
+#NET "not_alct384<35>"	LOC = "AJ16";	# I/O_44
+#NET "not_alct384<36>"	LOC = "AK16";	# I/O_45
+#NET "not_alct384<37>"	LOC = "AH17";	# I/O_46
+#NET "not_alct384<38>"	LOC = "AK17";	# I/O_47
+#NET "not_alct384<39>"	LOC = "AB16";	# I/O_48
+#NET "not_alct384<40>"	LOC = "AC16";	# I/O_49
+#NET "not_alct384<41>"	LOC = "AF15";	# I/O_50
+#NET "not_alct384<42>"	LOC = "AG15";	# I/O_51
+#NET "not_alct384<43>"	LOC = "AG16";	# I/O_52
+#NET "not_alct384<44>"	LOC = "AH16";	# I/O_53
+#NET "not_alct384<45>"	LOC = "AD15";	# I/O_54
+#NET "not_alct384<46>"	LOC = "AE15";	# I/O_55
+#NET "not_alct384<47>"	LOC = "AA15";	# I/O_56
+#NET "not_alct384<48>"	LOC = "AB15";	# I/O_57
+#NET "not_alct384<49>"	LOC = "AH15";	# I/O_58
+#NET "not_alct384<50>"	LOC = "AK15";	# I/O_59
+#NET "not_alct384<51>"	LOC = "AJ14";	# I/O_60
+#NET "not_alct384<52>"	LOC = "AK14";	# I/O_61
+#NET "not_alct384<53>"	LOC = "AB14";	# I/O_62
+#NET "not_alct384<54>"	LOC = "AC14";	# I/O_63
+#NET "not_alct384<55>"	LOC = "AH13";	# I/O_64
+#NET "not_alct384<56>"	LOC = "AK13";	# I/O_65
+#NET "not_alct384<57>"	LOC = "AD14";	# I/O_66
+#NET "not_alct384<58>"	LOC = "AE14";	# I/O_67
+#NET "not_alct384<59>"	LOC = "AF13";	# I/O_68
+#NET "not_alct384<60>"	LOC = "AG13";	# I/O_69
+#NET "not_alct384<61>"	LOC = "AG14";	# I/O_70
+#NET "not_alct384<62>"	LOC = "AH14";	# I/O_71
+#NET "not_alct384<63>"	LOC = "AG12";	# I/O_72
+#NET "not_alct384<64>"	LOC = "AH12";	# I/O_73
+#NET "not_alct384<65>"	LOC = "AD13";	# I/O_74
+#NET "not_alct384<66>"	LOC = "AE13";	# I/O_75
+#NET "not_alct384<67>"	LOC = "AD12";	# I/O_76
+#NET "not_alct384<68>"	LOC = "AE12";	# I/O_77
+#NET "not_alct384<69>"	LOC = "AB12";	# I/O_78
+#NET "not_alct384<70>"	LOC = "AC12";	# I/O_79
+#NET "not_alct384<71>"	LOC = "AF11";	# I/O_80
+#NET "not_alct384<72>"	LOC = "Y3";		# I/O_179
+#NET "not_alct384<73>"	LOC = "Y2";		# I/O_180
+#NET "not_alct384<74>"	LOC = "AA4";	# I/O_183
+#NET "not_alct384<75>"	LOC = "W3";		# I/O_184
+#NET "not_alct384<76>"	LOC = "AB1";	# I/O_194
+#NET "not_alct384<77>"	LOC = "AK18";	# I/O_197
+#NET "not_alct384<78>"	LOC = "V2";		# I/O_198
+#NET "not_alct384<79>"	LOC = "U4";		# I/O_201
+#NET "not_alct384<80>"	LOC = "U3";		# I/O_202
+#NET "not_alct384<81>"	LOC = "A8";		# I/O_299
+#NET "not_alct384<82>"	LOC = "D9";		# I/O_300
+#NET "not_alct384<83>"	LOC = "C9";		# I/O_301
+#NET "not_alct384<84>"	LOC = "K12";	# I/O_302
+#NET "not_alct384<85>"	LOC = "J12";	# I/O_303
+#NET "not_alct384<86>"	LOC = "G11";	# I/O_304
+#NET "not_alct384<87>"	LOC = "F11";	# I/O_305
+#NET "not_alct384<88>"	LOC = "B9";		# I/O_306
+#NET "not_alct384<89>"	LOC = "A9";		# I/O_307
+#NET "not_alct384<90>"	LOC = "C10";	# I/O_308
+#NET "not_alct384<91>"	LOC = "A10";	# I/O_309
+#NET "not_alct384<92>"	LOC = "D11";	# I/O_310
+#NET "not_alct384<93>"	LOC = "C11";	# I/O_311
+#NET "not_alct384<94>"	LOC = "G12";	# I/O_312
+#NET "not_alct384<95>"	LOC = "F12";	# I/O_313
+#NET "not_alct384<96>"	LOC = "E12";	# I/O_314
+#NET "not_alct384<97>"	LOC = "D12";	# I/O_315
+#NET "not_alct384<98>"	LOC = "B11";	# I/O_316
+#NET "not_alct384<99>"	LOC = "A11";	# I/O_317
+#NET "not_alct384<100>"	LOC = "C12";	# I/O_318
+#NET "not_alct384<101>"	LOC = "A12";	# I/O_319
+#NET "not_alct384<102>"	LOC = "D13";	# I/O_320
+#NET "not_alct384<103>"	LOC = "C13";	# I/O_321
+#NET "not_alct384<104>"	LOC = "J13";	# I/O_322
+#NET "not_alct384<105>"	LOC = "H13";	# I/O_323
+#NET "not_alct384<106>"	LOC = "G13";	# I/O_324
+#NET "not_alct384<107>"	LOC = "F13";	# I/O_325
+#NET "not_alct384<108>"	LOC = "K14";	# I/O_326
+#NET "not_alct384<109>"	LOC = "J14";	# I/O_327
+#NET "not_alct384<110>"	LOC = "G14";	# I/O_328
+#NET "not_alct384<111>"	LOC = "F14";	# I/O_329
+#NET "not_alct384<112>"	LOC = "E14";	# I/O_330
+#NET "not_alct384<113>"	LOC = "D14";	# I/O_331
+#NET "not_alct384<114>"	LOC = "B13";	# I/O_332
+#NET "not_alct384<115>"	LOC = "A13";	# I/O_333
+#NET "not_alct384<116>"	LOC = "C14";	# I/O_334
+#NET "not_alct384<117>"	LOC = "A14";	# I/O_335
+#NET "not_alct384<118>"	LOC = "J15";	# I/O_336
+#NET "not_alct384<119>"	LOC = "H15";	# I/O_337
+#NET "not_alct384<120>"	LOC = "G15";	# I/O_338
+#NET "not_alct384<121>"	LOC = "F15";	# I/O_339
+#NET "not_alct384<122>"	LOC = "A16";	# I/O_340
+#NET "not_alct384<123>"	LOC = "C18";	# I/O_341
+#NET "not_alct384<124>"	LOC = "A18";	# I/O_342
+#NET "not_alct384<125>"	LOC = "B17";	# I/O_343
+#NET "not_alct384<126>"	LOC = "A17";	# I/O_344
+#NET "not_alct384<127>"	LOC = "E16";	# I/O_345
+#NET "not_alct384<128>"	LOC = "D16";	# I/O_346
+#NET "not_alct384<129>"	LOC = "G16";	# I/O_347
+#NET "not_alct384<130>"	LOC = "F16";	# I/O_348
+#NET "not_alct384<131>"	LOC = "D17";	# I/O_349
+#NET "not_alct384<132>"	LOC = "C17";	# I/O_350
+#NET "not_alct384<133>"	LOC = "G17";	# I/O_351
+#NET "not_alct384<134>"	LOC = "F17";	# I/O_352
+#NET "not_alct384<135>"	LOC = "J17";	# I/O_353
+#NET "not_alct384<136>"	LOC = "H17";	# I/O_354
+#NET "not_alct384<137>"	LOC = "B19";	# I/O_355
+#NET "not_alct384<138>"	LOC = "A19";	# I/O_356
+#NET "not_alct384<139>"	LOC = "E18";	# I/O_357
+#NET "not_alct384<140>"	LOC = "D18";	# I/O_358
+#NET "not_alct384<141>"	LOC = "G18";	# I/O_359
+#NET "not_alct384<142>"	LOC = "F18";	# I/O_360
+#NET "not_alct384<143>"	LOC = "C20";	# I/O_361
+#NET "not_alct384<144>"	LOC = "D19";	# I/O_362
+#NET "not_alct384<145>"	LOC = "C19";	# I/O_363
+#NET "not_alct384<146>"	LOC = "G19";	# I/O_364
+#NET "not_alct384<147>"	LOC = "F19";	# I/O_365
+#NET "not_alct384<148>"	LOC = "B21";	# I/O_366
+#NET "not_alct384<149>"	LOC = "A21";	# I/O_367
+#NET "not_alct384<150>"	LOC = "J19";	# I/O_368
+#NET "not_alct384<151>"	LOC = "H19";	# I/O_369
+#NET "not_alct384<152>"	LOC = "E20";	# I/O_370
+#NET "not_alct384<153>"	LOC = "E29";	# I/O_405
+#NET "not_alct384<154>"	LOC = "F26";	# I/O_501
+#NET "not_alct384<155>"	LOC = "F27";	# I/O_502
+#NET "not_alct384<156>"	LOC = "E26";	# I/O_503
+#NET "not_alct384<157>"	LOC = "D26";	# I/O_504
+#NET "not_alct384<158>"	LOC = "C29";	# I/O_505
+#NET "not_alct384<159>"	LOC = "C30";	# I/O_506
+#NET "not_alct384<160>"	LOC = "D27";	# I/O_507
+#NET "not_alct384<161>"	LOC = "C27";	# I/O_508
+#NET "not_alct384<162>"	LOC = "D28";	# I/O_509
+#NET "not_alct384<163>"	LOC = "D30";	# I/O_510
+#NET "not_alct384<164>"	LOC = "E27";	# I/O_511
+#NET "not_alct384<165>"	LOC = "T24";	# I/O_512
+#NET "not_alct384<166>"	LOC = "T25";	# I/O_513
+#NET "not_alct384<167>"	LOC = "AJ28";	# I/O_514
+#NET "not_alct384<168>"	LOC = "AK28";	# I/O_515
+#NET "not_alct384<169>"	LOC = "U25";	# I/O_516
+
+#------------------------------------------------------------------------
+# IOB Modifiers
+#------------------------------------------------------------------------
+NET "clk80<*>"			SLEW=FAST | DRIVE=12;
+
+NET "rsrvd_out<*>"		SLEW=SLOW | DRIVE=12;
+NET "ext_inject_trig"	SLEW=SLOW | DRIVE=12;
+NET "activeFeb_cfgDone"	SLEW=SLOW | DRIVE=12;
+NET "valid"				SLEW=SLOW | DRIVE=12;
+NET "keyp<*>"			SLEW=SLOW | DRIVE=12;
+NET "quality<*>"		SLEW=SLOW | DRIVE=12;
+NET "amu"				SLEW=SLOW | DRIVE=12;
+NET "bxn_wrFifo<*>"		SLEW=SLOW | DRIVE=12;
+NET "L1A_SyncAdb"		SLEW=SLOW | DRIVE=12;
+NET "daqData<*>"		SLEW=SLOW | DRIVE=12;
+NET "lctSpec_FirstFr"	SLEW=SLOW | DRIVE=12;
+NET "dduSpec_LastFr"	SLEW=SLOW | DRIVE=12;
+NET "seq_seu<*>"		SLEW=SLOW | DRIVE=12;
+
+#------------------------------------------------------------------------
+# Time Specs
+#------------------------------------------------------------------------
+NET "tck2" TNM_NET = "tck2";
+TIMESPEC "TS_tck2" = PERIOD "tck2" 21 ns HIGH 50 %;
+NET "clkp" TNM_NET = "clkp";
+TIMESPEC "TS_clkp" = PERIOD "clkp" 21 ns HIGH 50 %;
+
+NET "tck2" CLOCK_DEDICATED_ROUTE = FALSE;
+
+#------------------------------------------------------------------------
+#end
+#------------------------------------------------------------------------

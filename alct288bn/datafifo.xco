@@ -1,0 +1,46 @@
+# BEGIN Project Options
+SET flowvendor = Foundation_iSE
+SET vhdlsim = True
+SET verilogsim = True
+SET workingdirectory = F:\Users\madorsky\projects\ise\alct\alct288bn\tmp
+SET speedgrade = -7
+SET simulationfiles = Behavioral
+SET asysymbol = True
+SET addpads = False
+SET device = xcv600e
+SET implementationfiletype = Edif
+SET busformat = BusFormatAngleBracketNotRipped
+SET foundationsym = False
+SET package = fg680
+SET createndf = False
+SET designentry = VHDL
+SET devicefamily = virtexe
+SET formalverification = False
+SET removerpms = False
+# END Project Options
+# BEGIN Select
+SELECT Asynchronous_FIFO family Xilinx,_Inc. 6.1
+# END Select
+# BEGIN Parameters
+CSET create_rpm=false
+CSET read_acknowledge=false
+CSET almost_empty_flag=false
+CSET write_acknowledge=false
+CSET memory_type=block
+CSET read_acknowledge_sense=active_high
+CSET read_count_width=2
+CSET fifo_depth=2047
+CSET component_name=datafifo
+CSET write_count_width=1
+CSET write_count=true
+CSET read_count=false
+CSET write_error=false
+CSET read_error=false
+CSET read_error_sense=active_high
+CSET almost_full_flag=false
+CSET write_acknowledge_sense=active_high
+CSET write_error_sense=active_high
+CSET input_data_width=48
+# END Parameters
+GENERATE
+
